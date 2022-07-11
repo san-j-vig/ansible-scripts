@@ -1,0 +1,9 @@
+- hosts: 'all'
+
+  gather_facts: False
+
+  tasks:
+  - name: Reboot servers
+    become: true
+    become_user: root
+    shell: reboot

@@ -1,0 +1,20 @@
+- hosts: 'all'
+  gather_facts: False
+  
+  tasks:
+  - name: Setup reboot check script
+    shell: |
+          echo "#!/bin/bash
+          if [ -f /var/run/reboot-required ]
+          then
+            printf '*** Reboot Required ***'
+          fi" >> /tmp/check-reboot-req.sh
+
+  - name: Check if system requires reboot
+    shell: bash /tmp/check-reboot-req.sh
+    register: reboot_check
+  - debug: msg="{{ reboot_check.stdout }}"
+  - debug: msg="{{ reboot_check.stderr }}"
+
+  - name: Remove reboot check file
+    shell: rm /tmp/check-reboot-req.sh

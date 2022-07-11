@@ -1,0 +1,27 @@
+- hosts: 'all'
+  gather_facts: False
+  
+  tasks:
+  - name: Apt Update
+    become: true
+    become_user: root
+    shell: apt update
+    register: update
+  - debug: msg="{{ update.stdout }}"
+  - debug: msg="{{ update.stderr }}"
+
+  - name: Installing Security Upgrades
+    become: true
+    become_user: root
+    shell: unattended-upgrades -v
+    register: upgrade
+  - debug: msg="{{ upgrade.stdout }}"
+  - debug: msg="{{ upgrade.stderr }}"
+
+  - name: Autoremove unused packages
+    become: true
+    become_user: root
+    shell: apt autoremove -y
+    register: remove
+  - debug: msg="{{ remove.stdout }}"
+  - debug: msg="{{ remove.stderr }}"

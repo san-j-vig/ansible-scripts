@@ -1,0 +1,14 @@
+- hosts: 'all'
+
+  gather_facts: False
+
+  tasks:
+
+  - name: Remove filebeat
+    become: true
+    become_user: root
+    shell: apt remove filebeat -y
+    register: remove_filebeat
+  - debug: msg="{{ remove_filebeat.stdout }}"
+  - debug: msg="{{ remove_filebeat.stderr }}"
+

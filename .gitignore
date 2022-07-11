@@ -1,0 +1,8 @@
+hosts
+.vscode
+playbooks/.vscode
+*.pyc
+*.crt
+*.key
+config.py
+__pycache__

@@ -1,0 +1,10 @@
+- hosts: 'all'
+  gather_facts: False
+  tasks:
+  - name: Check filebeat running
+    become: true
+    become_user: root
+    script: systemctl status filebeat
+    register: fbeat
+  - debug: msg="{{ fbeat.stdout }}"
+  - debug: msg="{{ fbeat.stderr }}"

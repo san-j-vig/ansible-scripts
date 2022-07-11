@@ -1,0 +1,28 @@
+- hosts: "all"
+
+  gather_facts: False
+
+  tasks:
+    - name: Make filebeat conf directory
+      become: true
+      become_user: root
+      shell: mkdir /tmp/filebeat; exit 0
+
+    - name: Set permissions
+      become: true
+      become_user: root
+      shell: chmod 777 /tmp/filebeat -R
+
+    - name: Installing filebeat
+      become: true
+      become_user: root
+      script: ./scripts/install_filebeat.sh
+      register: install_filebeat
+      
+    - debug: msg="{{ install_filebeat.stdout }}"
+    - debug: msg="{{ install_filebeat.stderr }}"
+
+    - name: Remove tmp directory
+      become: true
+      become_user: root
+      shell: rm -rf /tmp/filebeat

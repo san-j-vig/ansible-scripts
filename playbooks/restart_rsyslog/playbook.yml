@@ -1,0 +1,13 @@
+- hosts: 'all'
+  
+  gather_facts: False
+
+  tasks:
+
+  - name: Restarting rsyslog
+    become: true
+    become_user: root
+    shell: service filebeat restart
+    register: restart_rsyslog
+  - debug: msg="{{ restart_rsyslog.stdout }}"
+  - debug: msg="{{ restart_rsyslog.stderr }}"
